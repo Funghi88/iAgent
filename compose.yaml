@@ -4,4 +4,4 @@ services:
   swarm-agent:
     build: .
     environment:
-      OPENAI_API_KEY: <YOUR_API_KEY_GOES_HERE>
+      OPENAI_API_KEY: <your_actual_api_key_here>

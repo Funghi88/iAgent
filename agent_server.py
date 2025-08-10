@@ -26,9 +26,14 @@ class InjectiveChatAgent:
 
         # Get API key from environment variable
         self.api_key = os.getenv("OPENAI_API_KEY")
+        self.base_url = os.getenv("OPENAI_BASE_URL","https://dashscope.aliyuncs.com/compatible-mode/v1")
+        self.llm = os.getenv("LLM")
+        print(f"DEBUG: API key loaded: {self.api_key[:10] if self.api_key else 'None'}...")
+        print(f"DEBUG: Base URL: {self.base_url}")
+    
         if not self.api_key:
             raise ValueError(
-                "No OpenAI API key found. Please set the OPENAI_API_KEY environment variable."
+                "No API key found. Please set the OPENAI_API_KEY environment variable."
             )
 
         # Initialize OpenAI client
@@ -107,7 +112,7 @@ class InjectiveChatAgent:
             # Get response from OpenAI
             response = await asyncio.to_thread(
                 self.client.chat.completions.create,
-                model="gpt-4o",
+                model="qwen-plus",
                 messages=[
                     {
                         "role": "system",
@@ -183,7 +188,7 @@ class InjectiveChatAgent:
                 # Get final response
                 second_response = await asyncio.to_thread(
                     self.client.chat.completions.create,
-                    model="gpt-4-turbo-preview",
+                    model="qwen-plus",
                     messages=self.conversations[session_id],
                     max_tokens=2000,
                     temperature=0.7,
